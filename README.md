@@ -3,8 +3,8 @@
 Playground for testing out the development of [CEP](https://www.adobe.io/apis/creativecloud/cep.html) based Photoshop 
 extension panels.
 
-This project is not intended to produce usable code. Rather, it's purpose is just test different approaches and to gain 
-information about how to best develop an extension panel. 
+This project is not intended to produce usable code. Rather, it's purpose is just to test different approaches and to
+gain information about how to best develop an extension panel. 
 
 ## Goals
 * Automate as far as possible
