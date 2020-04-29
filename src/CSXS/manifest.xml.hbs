@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+!!! Stick with version 7.0 of CSXS Runtime & ExtensionManifest[Version], even for PS CC 2018 with has a documented CEP version of 8.0!
+-->
+<ExtensionManifest Version="7.0"
+                   ExtensionBundleId="{{id}}"
+                   ExtensionBundleName="{{name}}"
+                   ExtensionBundleVersion="{{version}}"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ExtensionList>
+        <Extension Id="{{id}}.panel" Version="1.0.0"/>
+    </ExtensionList>
+    <ExecutionEnvironment>
+        <HostList>
+            <Host Name="PHXS" Version="[19.0.0,100.0]"/>
+            <Host Name="PHSP" Version="[19.0.0,100.0]"/>
+        </HostList>
+        <LocaleList>
+            <Locale Code="All"/>
+        </LocaleList>
+        <RequiredRuntimeList>
+            <RequiredRuntime Name="CSXS" Version="7.0"/>
+        </RequiredRuntimeList>
+    </ExecutionEnvironment>
+    <DispatchInfoList>
+        <Extension Id="{{id}}.panel">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./client/index.html</MainPath>
+                    <ScriptPath>./host/master.jsx</ScriptPath>
+                </Resources>
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>{{name}}</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>200</Height>
+                            <Width>200</Width>
+                        </Size>
+                    </Geometry>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+    </DispatchInfoList>
+</ExtensionManifest>
