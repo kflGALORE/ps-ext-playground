@@ -7,7 +7,13 @@ This project is not intended to produce usable code. Rather, it's purpose is jus
 information about how to best develop an extension panel. 
 
 ## Goals
-TBD
+* Automate as far as possible
+* Use Typescript
+* Run in local dev-server
+* Pass objects between panel and host
+* "Natural" script invocations
+* Typesafe script invocations
+* Automatic theme handling
 
 ## Links
 
@@ -26,10 +32,11 @@ TBD
 
 * Extension installation
     * Windows: `%APPDATA%/\Adobe\CEP\extensions`
-    * MacOS: ?
+    * MacOS: `~/Library/Application Support/Adobe/CEP/extensions`
 * Log files
     * Windows: `%TEMP%`
-    * MacOS: ?
+    * MacOS: `/Users/<USERNAME>/Library/Logs/CSXS`
     * Files:
         * `CEP*-PHXS.log`
         * `CEPHtmlEngine*-PHXS-*-<panel-id>*.log`
+        * other files are quite uninteresting
