@@ -106,6 +106,12 @@ const csxs = {
             content: () => {
                 return template(path.resolve(projectDir, 'src/CSXS/manifest.xml.hbs'))(psExtensionConfig);
             }
+        }),
+        generate({
+            file: path.resolve(projectDir, 'dist/.debug'),
+            content: () => {
+                return template(path.resolve(projectDir, 'src/CSXS/.debug.hbs'))(psExtensionConfig);
+            }
         })
     ]
 };

@@ -19,20 +19,21 @@ export class Panel {
         // psePanel.button('').within(rootElement).onClick = ...
         try {
             (rootElement.querySelector('button.run-script') as HTMLButtonElement).onclick = (event) => {
-                console.log('Button clicked:' + event);
-                console.log('...2');
                 try {
                     // @ts-ignore
                     window.csInterface.evalScript('$._script.sayHello(' + JSON.stringify({to: "World", from: "ps-ext-ref"}) + ')', (result) => {
-                        console.log('result:' + result);
-                        alert('' + result);
-                        if (result && result.startsWith('EvalScript error.')) {
-                            // @ts-ignore
-                            window.csInterface.evalScript('$.error', (result2) => {
-                                console.log('result2:' + result2);
-                                alert('' + result2);
-                            });
-
+                        if (result) {
+                            if ( result.startsWith('EvalScript error.')) {
+                                // Error case ...
+                                alert('ERROR: ' + result);
+                            } else {
+                                if (this.isJSON(result)) {
+                                    const greeting = JSON.parse(result);
+                                    alert('result: from=' + greeting.from + ' to=' + greeting.to);
+                                } else {
+                                    alert('result: ' + result);
+                                }
+                            }
                         }
                     });
                 } catch (error) {
@@ -44,5 +45,17 @@ export class Panel {
             console.log('ERROR:' + error);
             alert('' + error);
         }
+    }
+
+    private isJSON(str: string): boolean {
+        let parsedStr;
+        try {
+            parsedStr = JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+
+        return typeof parsedStr === 'object';
+
     }
 }
