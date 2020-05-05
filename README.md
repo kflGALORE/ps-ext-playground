@@ -6,15 +6,6 @@ extension panels.
 This project is not intended to produce usable code. Rather, it's purpose is just to test different approaches and to
 gain information about how to best develop an extension panel. 
 
-## Goals
-* Automate as far as possible
-* Use Typescript
-* Run in local dev-server
-* Pass objects between panel and host
-* "Natural" script invocations
-* Typesafe script invocations
-* Automatic theme handling
-
 ## Links
 
 * [CEP Getting Started Guides](https://github.com/Adobe-CEP/Getting-Started-guides)
@@ -40,3 +31,23 @@ gain information about how to best develop an extension panel.
         * `CEP*-PHXS.log`
         * `CEPHtmlEngine*-PHXS-*-<panel-id>*.log`
         * other files are quite uninteresting
+        
+## Goals & Findings
+* Automate as far as possible
+* Use Typescript [solved]
+    * Client side:
+        * seems to be unproblematic
+        * configure TS compiler to compile down to either 'es3' or 'es5' in `tsconfig.json`
+        * 'es3' should be the better choice, since we also want to compile-down host side
+        * otherwise we had to use separate  `tsconfig.json` files, which makes the setup unnecessary complex
+    * Host side:
+        * configure TS compiler to compile down to 'es3' in `tsconfig.json`
+        * this still does not make it - we have to include polyfills on the host side
+        * we have to include a JSON ployfill, as well as 'es5' polyfill from https://polyfill.io/v3/url-builder/
+        * JSON polyfill from https://polyfill.io/v3/url-builder/ does not work, we have to include json2 polyfill
+        * polyfills must be loaded by a bootstrap script on the host side
+* Run in local dev-server
+* Pass objects between panel and host
+* "Natural" script invocations
+* Typesafe script invocations
+* Automatic theme handling
