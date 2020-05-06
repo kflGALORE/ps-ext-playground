@@ -33,7 +33,7 @@ gain information about how to best develop an extension panel.
         * other files are quite uninteresting
         
 ## Goals & Findings
-* Automate as far as possible
+* Automation
 * Use Typescript [solved]
     * Client side:
         * seems to be unproblematic
@@ -46,6 +46,9 @@ gain information about how to best develop an extension panel.
         * we have to include a JSON ployfill, as well as 'es5' polyfill from https://polyfill.io/v3/url-builder/
         * JSON polyfill from https://polyfill.io/v3/url-builder/ does not work, we have to include json2 polyfill
         * polyfills must be loaded by a bootstrap script on the host side
+        * host side scripts are bundled with Webpack as library named "script"
+        * bootstrap script is responsible for reading / evaluating the bundled script library and for registering the 
+          exported script functions / objects in a global object within the dollar ($) object 
 * Run in local dev-server
 * Pass objects between panel and host
 * "Natural" script invocations

@@ -4,9 +4,6 @@ var global = $;
     var baseDir = new File($.fileName).parent;
     var self = new File(baseDir.fullName + '/master.jsx');
     if (self.exists) {
-
-        $._script = {};
-
         try {
             var polyfills = new File(baseDir.fullName + '/polyfills.js');
             $.evalFile(polyfills.fullName);
@@ -25,6 +22,15 @@ var global = $;
         try {
             var scriptBundle = new File(baseDir.fullName + '/script.bundle.js');
             $.evalFile(scriptBundle.fullName);
+
+            $._script = {};
+
+            Object.getOwnPropertyNames(script).forEach(function(scriptPropertyName) {
+                var scriptProperty = script[scriptPropertyName];
+                if (typeof scriptProperty === 'function') {
+                    $._script[scriptPropertyName] = scriptProperty;
+                }
+            });
         } catch (error) {
             var logFile = new File(baseDir.fullName + '/log.txt');
             logFile.open("w");

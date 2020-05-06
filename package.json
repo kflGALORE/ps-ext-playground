@@ -23,6 +23,7 @@
     "node-sass": "^4.13.1",
     "null-loader": "^3.0.0",
     "polyfill-library": "^3.53.1",
+    "requirejs": "^2.3.6",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
     "ts-loader": "^6.2.1",

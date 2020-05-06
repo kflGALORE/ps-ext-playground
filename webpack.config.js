@@ -69,6 +69,9 @@ const client = {
 };
 const host = {
     entry: {'host/script.bundle': path.resolve(projectDir, 'src/host/script.ts')},
+    output: {
+        library: 'script'
+    },
     plugins: [
         new copy([
             {
