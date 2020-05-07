@@ -3,7 +3,6 @@ export function doMe(): string {
 }
 
 export function sayHello(greeting: Greeting): string {
-    alert('Hello ' + greeting.to + ' from ' + greeting.from);
     return JSON.stringify(greeting);
 }
 

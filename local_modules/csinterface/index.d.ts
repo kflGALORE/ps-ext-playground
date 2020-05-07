@@ -1,11 +1,15 @@
 export module csinterface {
 }
 
+declare interface EvalScriptCallback {
+    (result: string): void;
+}
+
 declare class CSInterface {
     getHostEnvironment(): HostEnvironment;
     closeExtension(): void;
     getSystemPath(pathType: SystemPath): string;
-    evalScript(script: string, callback?: Function): void
+    evalScript(script: string, callback?: EvalScriptCallback): void
     getApplicationID(): string;
     getHostCapabilities(): HostCapabilities;
     dispatchEvent(event: CSEvent): void

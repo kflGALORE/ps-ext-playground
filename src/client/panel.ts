@@ -19,43 +19,25 @@ export class Panel {
         // psePanel.button('').within(rootElement).onClick = ...
         try {
             (rootElement.querySelector('button.run-script') as HTMLButtonElement).onclick = (event) => {
-                try {
+                /*
+                    [window.]host.script.sayHello({....}).then(...).catch(...)
+                    host vs cs vs csi vs panel vs pse vs psext vs extension
+                 */
+
+                // @ts-ignore
+                window.scriptProxy.sayHello({to: "World", from: "ps-ext-ref"})
                     // @ts-ignore
-                    window.csInterface.evalScript('$._script.sayHello(' + JSON.stringify({to: "World", from: "ps-ext-ref"}) + ')', (result) => {
-                        if (result) {
-                            if ( result.startsWith('EvalScript error.')) {
-                                // Error case ...
-                                alert('ERROR: ' + result);
-                            } else {
-                                if (this.isJSON(result)) {
-                                    const greeting = JSON.parse(result);
-                                    alert('result: from=' + greeting.from + ' to=' + greeting.to);
-                                } else {
-                                    alert('result: ' + result);
-                                }
-                            }
-                        }
+                    .then(greeting => {
+                        alert('result: from=' + greeting.from + ' to=' + greeting.to);
+                    })
+                    // @ts-ignore
+                    .catch(e => {
+                        alert('ERROR: ' + e);
                     });
-                } catch (error) {
-                    console.log('evalScript failed:' + error);
-                    alert('' + error);
-                }
             };
         } catch (error) {
             console.log('ERROR:' + error);
             alert('' + error);
         }
-    }
-
-    private isJSON(str: string): boolean {
-        let parsedStr;
-        try {
-            parsedStr = JSON.parse(str);
-        } catch (e) {
-            return false;
-        }
-
-        return typeof parsedStr === 'object';
-
     }
 }
