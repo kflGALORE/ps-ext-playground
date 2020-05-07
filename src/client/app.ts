@@ -58,9 +58,6 @@ class App {
                                 if (typeof arg === 'object') {
                                     return JSON.stringify(arg);
                                 }
-                                if (arg === 666) {
-                                    throw new Error('XXX');
-                                }
                                 return arg;
                             }).join(',');
 
