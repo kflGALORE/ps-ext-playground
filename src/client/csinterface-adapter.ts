@@ -1,46 +1,79 @@
 import {CSInterface, SystemPath} from '../../local_modules/csinterface'
 
+var _csInterfaceAdapter: CSInterfaceAdapter;
 
+export function csInterfaceAdapter(): CSInterfaceAdapter {
+    if (! _csInterfaceAdapter) {
+        _csInterfaceAdapter = createCSInterfaceAdapter();
+    }
 
-export function bootstrap(): CSInterfaceAdapter {
+    return _csInterfaceAdapter;
+}
+
+function createCSInterfaceAdapter(): CSInterfaceAdapter {
     const csInterface = new CSInterface();
-    const csInterfaceAdapter = new Proxy<any>(csInterface, {
+    return new Proxy<any>(csInterface, {
         get: (target, prop) => {
             const propName = prop.toString();
             switch (propName) {
+                case 'bootstrap':
+                    return createBootstrapFunction(csInterface);
                 case 'script':
-                    return new Proxy({}, {
-                        get: (target, scriptPropertyKey) => {
-                            return (...args: any[]) => {
-                                return new Promise((resolve, reject) => {
-                                    try {
-                                        csInterface.evalScript(scriptCall(scriptPropertyKey, args), result => {
-                                            if (! result) {
-                                                resolve(null);
-                                            } else if ( result.startsWith('EvalScript error.')) {
-                                                reject(new Error(result));
-                                            } else {
-                                                if (isJSON(result)) {
-                                                    resolve(JSON.parse(result));
-                                                } else {
-                                                    resolve(result);
-                                                }
-                                            }
-                                        });
-                                    } catch (e) {
-                                        reject(e);
-                                    }
-                                });
-                            }
-                        }
-                    });
+                    return createScriptProxy(csInterface);
+
                 default:
                     return target[propName];
             }
         }
     });
+}
 
-    return csInterfaceAdapter;
+function createBootstrapFunction(csInterface: CSInterface) {
+    return () => {
+        return new Promise((resolve, reject) => {
+            try {
+                const bootstrapScript = csInterface.getSystemPath('extension') + '/host/master.jsx';
+
+                csInterface.evalScript('$.evalFile("' + bootstrapScript + '")', result => {
+                    if (result && result.startsWith('EvalScript error.')) {
+                        reject(new Error(result));
+                    } else {
+                        resolve(null);
+                    }
+                });
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+}
+
+function createScriptProxy(csInterface: CSInterface) {
+    return new Proxy({}, {
+        get: (target, scriptPropertyKey) => {
+            return (...args: any[]) => {
+                return new Promise((resolve, reject) => {
+                    try {
+                        csInterface.evalScript(scriptCall(scriptPropertyKey, ...args), result => {
+                            if (! result) {
+                                resolve(null);
+                            } else if ( result.startsWith('EvalScript error.')) {
+                                reject(new Error(result));
+                            } else {
+                                if (isJSON(result)) {
+                                    resolve(JSON.parse(result));
+                                } else {
+                                    resolve(result);
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        reject(e);
+                    }
+                });
+            }
+        }
+    });
 }
 
 function scriptCall(scriptPropertyKey: PropertyKey, ...args: any[]): string {
@@ -71,5 +104,6 @@ function isJSON(str: string): boolean {
 }
 
 interface CSInterfaceAdapter extends CSInterface {
-
+    script: any;
+    bootstrap(): Promise<null>;
 }

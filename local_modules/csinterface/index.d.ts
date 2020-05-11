@@ -52,14 +52,7 @@ declare enum ColorType {
     NONE = "none"
 }
 
-declare enum SystemPath {
-    USER_DATA = "userData",
-    COMMON_FILES = "commonFiles",
-    MY_DOCUMENTS = "myDocuments",
-    APPLICATION = "application",
-    EXTENSION = "extension",
-    HOST_APPLICATION = "hostApplication"
-}
+declare type SystemPath = 'userData' | 'commonFiles' | 'myDocuments' |'application' |'extension' |'hostApplication';
 
 declare interface Version {
     major: number;

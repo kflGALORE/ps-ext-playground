@@ -1,5 +1,6 @@
 import './panel.scss'
 import * as panel from './panel.hbs'
+import {csInterfaceAdapter as csi} from "./csinterface-adapter";
 
 export class Panel {
     public constructor(public rootElement: HTMLElement) {
@@ -23,7 +24,17 @@ export class Panel {
                     [window.]host.script.sayHello({....}).then(...).catch(...)
                     host vs cs vs csi vs panel vs pse vs psext vs extension
                  */
+                csi().script.sayHello({to: "World", from: "ps-ext-ref"})
+                    // @ts-ignore
+                    .then(greeting => {
+                        alert('result: from=' + greeting.from + ' to=' + greeting.to);
+                    })
+                    // @ts-ignore
+                    .catch(e => {
+                        alert('ERROR: ' + e);
+                    });
 
+                /*
                 // @ts-ignore
                 window.scriptProxy.sayHello({to: "World", from: "ps-ext-ref"})
                     // @ts-ignore
@@ -34,6 +45,8 @@ export class Panel {
                     .catch(e => {
                         alert('ERROR: ' + e);
                     });
+
+                 */
             };
         } catch (error) {
             console.log('ERROR:' + error);
