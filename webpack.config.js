@@ -75,8 +75,8 @@ const host = {
     plugins: [
         new copy([
             {
-                from: path.resolve(projectDir, 'src/host/master.js'),
-                to: path.resolve(projectDir, 'dist/host/master.jsx')
+                from: path.resolve(projectDir, 'src/host/bootstrap.js'),
+                to: path.resolve(projectDir, 'dist/host/bootstrap.js')
             }
         ]),
         generate({

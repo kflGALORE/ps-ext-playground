@@ -2,7 +2,7 @@ var global = $;
 
 (function() {
     var baseDir = new File($.fileName).parent;
-    var self = new File(baseDir.fullName + '/master.jsx');
+    var self = new File(baseDir.fullName + '/bootstrap.js');
     if (self.exists) {
         try {
             var polyfills = new File(baseDir.fullName + '/polyfills.js');

@@ -32,7 +32,7 @@ function createBootstrapFunction(csInterface: CSInterface) {
     return () => {
         return new Promise((resolve, reject) => {
             try {
-                const bootstrapScript = csInterface.getSystemPath('extension') + '/host/master.jsx';
+                const bootstrapScript = csInterface.getSystemPath('extension') + '/host/bootstrap.js';
 
                 csInterface.evalScript('$.evalFile("' + bootstrapScript + '")', result => {
                     if (result && result.startsWith('EvalScript error.')) {
