@@ -2,8 +2,8 @@ export function doMe(): string {
     return 'OK';
 }
 
-export function sayHello(greeting: Greeting): string {
-    return JSON.stringify(greeting);
+export function sayHello(greeting: Greeting): Greeting {
+    return greeting;
 }
 
 interface Greeting {

@@ -28,7 +28,13 @@ var global = $;
             Object.getOwnPropertyNames(script).forEach(function(scriptPropertyName) {
                 var scriptProperty = script[scriptPropertyName];
                 if (typeof scriptProperty === 'function') {
-                    $._script[scriptPropertyName] = scriptProperty;
+                    $._script[scriptPropertyName] = function() {
+                        var result = scriptProperty.apply(null, arguments);
+                        if (typeof result === 'object') {
+                            return JSON.stringify(result);
+                        }
+                        return result;
+                    };
                 }
             });
         } catch (error) {

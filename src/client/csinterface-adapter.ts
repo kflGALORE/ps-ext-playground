@@ -1,4 +1,4 @@
-import {CSInterface, SystemPath} from '../../local_modules/csinterface'
+import {CSInterface} from '../../local_modules/csinterface'
 
 var _csInterfaceAdapter: CSInterfaceAdapter;
 
