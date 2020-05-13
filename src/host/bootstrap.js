@@ -97,11 +97,17 @@ Logger.prototype.error = function(msg, error) {
                 var scriptProperty = script[scriptPropertyName];
                 if (typeof scriptProperty === 'function') {
                     $._script[scriptPropertyName] = function() {
-                        var result = scriptProperty.apply(null, arguments);
-                        if (typeof result === 'object') {
-                            return JSON.stringify(result);
+                        try {
+                            var result = scriptProperty.apply(null, arguments);
+                            if (typeof result === 'object') {
+                                return JSON.stringify(result);
+                            }
+                            return result;
+                        } catch (error) {
+                            error.fileName = scriptBundle.fullName;
+                            $._log.error(scriptPropertyName + 'could not be executed', error);
+                            throw error;
                         }
-                        return result;
                     };
                 }
             });
