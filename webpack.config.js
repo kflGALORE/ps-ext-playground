@@ -19,9 +19,6 @@ const common = {
     resolve: {
         extensions: ['.js', '.ts', '.tsx']
     },
-    plugins: [
-        new CleanWebpackPlugin()
-    ],
     module: {
         rules: [
             { // typescript
@@ -67,18 +64,9 @@ const client = {
         openPage: '?mode=development'
     }
 };
-const host = {
-    entry: {'host/script.bundle': path.resolve(projectDir, 'src/host/script.ts')},
-    output: {
-        library: 'script'
-    },
+const hostCore = {
+    entry: {'host/bootstrap': path.resolve(projectDir, 'src/host/bootstrap.ts')},
     plugins: [
-        new copy([
-            {
-                from: path.resolve(projectDir, 'src/host/bootstrap.js'),
-                to: path.resolve(projectDir, 'dist/host/bootstrap.js')
-            }
-        ]),
         generate({
             file: path.resolve(projectDir, 'dist/host/polyfills.js'),
             content: () => {
@@ -93,16 +81,23 @@ const host = {
                 });
 
                 return polyfillLibrary
-                        .getPolyfillString(opts)
-                        .then(otherPolyfills => {
-                            const jsonPolyfill = fs.readFileSync(require.resolve('json2/json.js'));
-                            return jsonPolyfill + '\n' + otherPolyfills;
-                        });
+                    .getPolyfillString(opts)
+                    .then(otherPolyfills => {
+                        const jsonPolyfill = fs.readFileSync(require.resolve('json2/json.js'));
+                        return jsonPolyfill + '\n' + otherPolyfills;
+                    });
             }
         })
     ]
 };
-const csxs = {
+const host = {
+    entry: {'host/script.bundle': path.resolve(projectDir, 'src/host/script.ts')},
+    output: {
+        library: 'script'
+    }
+};
+const csxs = { // descriptors
+    entry: {'CSXS/none': path.resolve(projectDir, 'src/CSXS/manifest.xml.hbs')},
     plugins: [
         generate({
             file: path.resolve(projectDir, 'dist/CSXS/manifest.xml'),
@@ -119,9 +114,9 @@ const csxs = {
     ]
 };
 
-const merged = merge(common, client, host, csxs);
+const merged = merge(common, client, host, hostCore, csxs);
 
-module.exports = merged;
+module.exports = [merge(common, client), merge(common, hostCore), merge(common, host), merge(common, csxs)];
 
 function template(file) {
     return handlebars.compile(fs.readFileSync(path.resolve(__dirname, file)).toString());
