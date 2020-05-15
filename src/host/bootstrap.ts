@@ -1,63 +1,6 @@
 var global = $;
 
-class Logger {
-
-    info(msg: string): void {
-        this.log('INFO', msg);
-    }
-
-    error(msg: string, error: Error): void {
-        this.log('ERROR', msg, error);
-    }
-
-    private log(level: string, msg: string, error?: Error): void {
-        try {
-            // @ts-ignore
-            const logFile = new File(Folder.temp + '/' + new File($.fileName).parent.parent.name + '.log');
-            logFile.open("a");
-            logFile.writeln('[' + this.date() + '] [' + level + '] ' + msg);
-            if (error) {
-                // @ts-ignore
-                const errorDescription = '  [' + error.fileName + ':' + error.line + '] ' + error.message;
-                logFile.writeln(errorDescription);
-
-                let errorStack = undefined;
-                if (error.stack) {
-                    errorStack = error.stack;
-                } else {
-                    errorStack = $.stack;
-                }
-                if (errorStack) {
-                    logFile.writeln('  Stack:');
-                    logFile.writeln(errorStack.replace(/^(.*)/gm, '    $1'));
-                }
-            }
-            logFile.close();
-        } catch (e) {
-            alert('Could not write to log file: ' + e);
-        }
-    }
-
-    private date(): string {
-        const date = new Date();
-
-        return date.getFullYear() +
-            '-' + this.pad(date.getMonth() + 1) +
-            '-' + this.pad(date.getDate()) +
-            'T' + this.pad(date.getHours()) +
-            ':' + this.pad(date.getMinutes()) +
-            ':' + this.pad(date.getSeconds()) +
-            '.' + date.getMilliseconds();
-    }
-
-    private pad(num: number): string {
-        if (num < 10) {
-            return '0' + num;
-        }
-        return '' + num;
-    }
-}
-
+import {Logger} from './logger';
 
 (function() {
     // @ts-ignore
@@ -82,6 +25,10 @@ class Logger {
     }
 
     function evalScriptBundle(baseDir: string) {
+        // @ts-ignore
+        //const logFile = new File(Folder.temp + '/' + new File($.fileName).parent.parent.name + '.log');
+        //alert('logFile: ' + logFile.fullName);
+        //alert('userData: ' + Folder.userData); ->  ~/Library/Application\ Support/
         try {
             // @ts-ignore
             var scriptBundle = new File(baseDir.fullName + '/script.bundle.js');
