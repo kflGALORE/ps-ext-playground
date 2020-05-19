@@ -3,20 +3,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "removeComments": true,
-    "target": "es3",
-    "lib": [
-      "es2015",
-      "dom"
-    ],
     "strict": true,
-    "sourceMap": true,
-    "outDir": "out/tsc"
+    "sourceMap": true
   },
-  "include": [
-    "src/client/*",
-    "src/host/*",
-    "typedefs/*"
-  ],
   "exclude": [
     "node_modules"
   ]

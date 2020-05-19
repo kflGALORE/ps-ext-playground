@@ -17,6 +17,7 @@ if (location && location.search && location.search.includes('mode=')) {
 
         // @ts-ignore
         window.__adobe_cep__ = cepAdapter;
+
     }
 }
 
