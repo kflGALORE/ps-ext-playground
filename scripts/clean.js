@@ -1,6 +1,5 @@
 const root = './';
 const env = require('../build');
+const fse = require('fs-extra');
 
-const rimraf = require('rimraf');
-
-rimraf.sync(env.dist(root));
+fse.emptyDirSync(env.dist(root));

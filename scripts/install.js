@@ -1,15 +1,20 @@
-const fs = require('fs');
+const root = './';
 
-console.log(process.platform);
-console.log(process.env);
+const env = require('../build');
+const fse = require('fs-extra');
 
-console.log(installDir());
-console.log(fs.statSync(installDir()));
+fse.copySync(env.dist(root), emptyInstallDir());
 
-function installDir() {
+function emptyInstallDir() {
+    let extensionsDir;
     if (process.platform.toLowerCase().startsWith('win')) {
-        return process.env.APPDATA + '\\Adobe\\CEP\\extensions';
+        extensionsDir = process.env.APPDATA + '\\Adobe\\CEP\\extensions\\';
     } else {
-        return process.env.HOME + '/Library/Application Support/Adobe/CEP/extensions';
+        extensionsDir = process.env.HOME + '/Library/Application Support/Adobe/CEP/extensions/';
     }
+    const installDir = extensionsDir + env.config.id;
+
+    fse.emptyDirSync(installDir);
+
+    return installDir;
 }

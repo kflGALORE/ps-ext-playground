@@ -7,7 +7,8 @@
     "clean": "node scripts/clean.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config modules/client/webpack.config.js --mode development && webpack --config modules/host/webpack.config.js --mode development && node modules/metadata/build.js",
-    "start": "webpack-dev-server --mode development --open"
+    "start": "webpack-dev-server --mode development --open",
+    "install": "node scripts/install.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "create-file-webpack": "^1.0.2",
     "css-loader": "^3.4.2",
     "file-loader": "^5.0.2",
+    "fs-extra": "^9.0.0",
     "generate-file-webpack-plugin": "^1.0.0",
     "handlebars-loader": "^1.7.1",
     "node-sass": "^4.14.1",
