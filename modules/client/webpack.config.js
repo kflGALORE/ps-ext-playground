@@ -1,58 +1,37 @@
-const path = require('path');
+const client = 'client';
+const env = require('../../build');
+
+const merge = require('webpack-merge');
 const copy = require('copy-webpack-plugin');
 
-const distDir = path.resolve(__dirname, '../../dist2');
-const moduleDir = path.resolve(__dirname, '.');
-
-
-module.exports = {
-    entry: {'client/app.bundle': path.resolve(moduleDir, 'src/app.ts')},
-    output: {
-        path: distDir, // dist(module)
-        filename: '[name].js'
-    },
-    resolve: {
-        extensions: ['.js', '.ts', '.tsx']
-    },
-    plugins: [
-        new copy([
-            {
-                from: path.resolve(moduleDir, 'src/index.html'), // src(module, 'index.html')
-                to: path.resolve(distDir, 'client/index.html') // dist('client'/index.html') vs dist(module, 'index.html')
-            }
-        ])
-    ],
-    module: {
-        rules: [
-            { // typescript
-                test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /\bnode_modules\b/
-            },
-            { // handlebars
-                test: /\.hbs$/,
-                use: 'handlebars-loader'
-            },
-            { // styles
-                test: /\.scss$/,
-                loader: 'style-loader!css-loader!sass-loader'
-            },
-            { // fonts
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].[ext]',
-                            outputPath: 'fonts/'
-                        }
-                    }
-                ]
-            }
-        ]
+const webpack = {
+    client: {
+        entry: {'app.bundle': env.src(client, 'app.ts')},
+        output: {
+            path: env.dist(client)
+        },
+        plugins: [
+            new copy([
+                {
+                    from: env.src(client, 'index.html'),
+                    to: env.dist(client, 'index.html')
+                }
+            ])
+        ],
+        module: {
+            rules: [
+                env.webpack.module.handlebars,
+                env.webpack.module.styles,
+                env.webpack.module.fonts
+            ]
+        }
     },
     devServer: {
-        contentBase: path.resolve(distDir, 'client'),
-        openPage: '?mode=development'
+        devServer: {
+            contentBase: env.dist(client),
+            openPage: '?mode=development'
+        }
     }
 };
+
+module.exports = [merge(env.webpack.config.common, webpack.client, webpack.devServer)];

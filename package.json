@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "JSON2": "^0.1.0",
+    "chalk": "^4.0.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "create-file-webpack": "^1.0.2",
@@ -20,7 +21,7 @@
     "file-loader": "^5.0.2",
     "generate-file-webpack-plugin": "^1.0.0",
     "handlebars-loader": "^1.7.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "null-loader": "^3.0.0",
     "polyfill-library": "^3.53.1",
     "requirejs": "^2.3.6",
@@ -30,7 +31,7 @@
     "typescript": "^3.7.5",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
