@@ -1,5 +1,5 @@
 const host = 'host';
-const env = require('../../build');
+const ext = require('../../ps-ext');
 
 const polyfillLibrary = require("polyfill-library");
 const merge = require('webpack-merge');
@@ -9,13 +9,13 @@ const polyfillsConfig = require('./polyfills');
 
 const webpack = {
     bootstrap: {
-        entry: {'bootstrap': env.src(host, 'bootstrap.ts')},
+        entry: {'bootstrap': ext.src(host, 'bootstrap.ts')},
         output: {
-            path: env.dist(host)
+            path: ext.dist(host)
         },
         plugins: [
             generate({
-                file: env.dist(host, 'polyfills.js'),
+                file: ext.dist(host, 'polyfills.js'),
                 content: () => {
                     const opts = {
                         uaString: 'none',
@@ -30,7 +30,7 @@ const webpack = {
                     return polyfillLibrary
                         .getPolyfillString(opts)
                         .then(otherPolyfills => {
-                            const jsonPolyfill = env.file.read(require.resolve('json2/json.js'));
+                            const jsonPolyfill = ext.file.read(require.resolve('json2/json.js'));
                             return jsonPolyfill + '\n' + otherPolyfills;
                         });
                 }
@@ -38,12 +38,12 @@ const webpack = {
         ]
     },
     script: {
-        entry: {'script.bundle': env.src(host, 'script.ts')},
+        entry: {'script.bundle': ext.src(host, 'script.ts')},
         output: {
-            path: env.dist(host),
+            path: ext.dist(host),
             library: 'script'
         }
     }
 };
 
-module.exports = [merge(env.webpack.config.common, webpack.bootstrap), merge(env.webpack.config.common, webpack.script)];
+module.exports = [merge(ext.webpack.config.common, webpack.bootstrap), merge(ext.webpack.config.common, webpack.script)];

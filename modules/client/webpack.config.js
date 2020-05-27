@@ -1,37 +1,37 @@
 const client = 'client';
-const env = require('../../build');
+const ext = require('../../ps-ext');
 
 const merge = require('webpack-merge');
 const copy = require('copy-webpack-plugin');
 
 const webpack = {
     client: {
-        entry: {'app.bundle': env.src(client, 'app.ts')},
+        entry: {'app.bundle': ext.src(client, 'app.ts')},
         output: {
-            path: env.dist(client)
+            path: ext.dist(client)
         },
         plugins: [
             new copy([
                 {
-                    from: env.src(client, 'index.html'),
-                    to: env.dist(client, 'index.html')
+                    from: ext.src(client, 'index.html'),
+                    to: ext.dist(client, 'index.html')
                 }
             ])
         ],
         module: {
             rules: [
-                env.webpack.module.handlebars,
-                env.webpack.module.styles,
-                env.webpack.module.fonts
+                ext.webpack.module.handlebars,
+                ext.webpack.module.styles,
+                ext.webpack.module.fonts
             ]
         }
     },
     devServer: {
         devServer: {
-            contentBase: env.dist(client),
+            contentBase: ext.dist(client),
             openPage: '?mode=development'
         }
     }
 };
 
-module.exports = [merge(env.webpack.config.common, webpack.client, webpack.devServer)];
+module.exports = [merge(ext.webpack.config.common, webpack.client, webpack.devServer)];

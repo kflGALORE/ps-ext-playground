@@ -1,5 +1,3 @@
-const root = './';
-const env = require('../build');
-const fse = require('fs-extra');
+const ext = require('../ps-ext');
 
-fse.emptyDirSync(env.dist(root));
+ext.dir.empty(ext.distRoot());
