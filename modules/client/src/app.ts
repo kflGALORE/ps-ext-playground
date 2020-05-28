@@ -8,10 +8,13 @@ if (location && location.search && location.search.includes('mode=')) {
         cepAdapter.getHostEnvironment = function() {
             return '{}';
         };
+        cepAdapter.getSystemPath = function() {
+            return '';
+        };
         cepAdapter.evalScript = function(script: string, callback?: Function) {
             console.log('evalScript [script:' + script + ']');
             if (callback) {
-                callback('EvalScript error.');
+                callback('OK');
             }
         };
 

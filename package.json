@@ -7,7 +7,7 @@
     "clean": "node scripts/clean.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config modules/client/webpack.config.js --mode development && webpack --config modules/host/webpack.config.js --mode development && node modules/metadata/build.js",
-    "start": "webpack-dev-server --mode development --open",
+    "start": "cd modules/client && webpack-dev-server --mode development --open",
     "install": "node scripts/install.js"
   },
   "keywords": [],
